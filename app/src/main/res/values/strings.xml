@@ -1,3 +1,10 @@
 <resources>
-    <string name="app_name">BitcoinMonitor</string>
+    <string name="app_name">Индекс цен Bitcoin</string>
+    <string name="start_date">от</string>
+    <string name="end_date">до</string>
+    <string name="enter_date">Введите дату:</string>
+    <string name="enter_currency">Введите валюту:</string>
+    <string name="last_update">Последнее обновление</string>
+    <string name="standard_currency">USD</string>
+    <string name="empty_text_view">________</string>
 </resources>
