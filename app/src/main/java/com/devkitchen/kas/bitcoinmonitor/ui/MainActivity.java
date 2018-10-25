@@ -19,23 +19,19 @@ import com.devkitchen.kas.bitcoinmonitor.models.GetCoin;
 import com.devkitchen.kas.datetimepicker.popwindow.DatePickerPopWin;
 import com.devkitchen.kas.datetimepicker.popwindow.WheelPickerPopWin;
 import com.github.mikephil.charting.charts.BarChart;
-import com.google.gson.JsonIOException;
-import com.google.gson.JsonObject;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+/**
+ * created by Kassen Dauren 25.10.2018
+ */
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, MainViewInterface {
 
@@ -119,14 +115,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             disclaimerText.setText(coin.getDisclaimer());
             years.addAll(Utilities.getKeys(coin.getBpi()));
             prices.addAll(Utilities.getValues(coin.getBpi()));
-            Log.d( TAG, coin.getDisclaimer());
+            Log.d(TAG, coin.getDisclaimer());
         } else {
-            Log.d( TAG, "Response null");
+            Log.d(TAG, "Response null");
         }
     }
 
     @Override
     public void displayError(String e) {
+        hideProgressBar();
         showToast(e);
     }
 
@@ -149,9 +146,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void checkEvent() {
         if (startDate.isEmpty() || endDate.isEmpty()) {
             Toast.makeText(MainActivity.this, "Введите дату!", Toast.LENGTH_LONG).show();
-        } else {
-            setupMVP();
-            showProgressBar();
+        }
+        if (!startDate.isEmpty() && !endDate.isEmpty()) {
+            if (Utilities.convertDate(startDate).after(Utilities.convertDate(endDate))) {
+                Toast.makeText(MainActivity.this, "Начальная дата не должна превышать или быть равна!", Toast.LENGTH_LONG).show();
+            } else {
+                setupMVP();
+                showProgressBar();
+            }
         }
     }
 
@@ -170,17 +172,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 currencyText.setText(currency);
             }
         }).textCenterTextView("Валюта")
-                .textConfirm("Готово") //text of confirm button
-                .textCancel("Отмена") //text of cancel button
-                .btnTextSize(16) // button text size
-                .viewTextSize(20) // pick view text size
-                .colorCancel(Color.parseColor("#999999")) //color of cancel button
-                .colorConfirm(Color.parseColor("#2d095c"))//color of confirm button
+                .textConfirm("Готово")          //text of confirm button
+                .textCancel("Отмена")           //text of cancel button
+                .btnTextSize(16)            // button text size
+                .viewTextSize(20)           // pick view text size
+                .colorCancel(Color.parseColor("#999999"))        //color of cancel button
+                .colorConfirm(Color.parseColor("#2d095c"))       //color of confirm button
                 .wheelList(currencyList)
-                .itemChose(0) // date chose when init popwindow
+                .itemChose(0)           // date chose when init popwindow
                 .build();
         pickerPopWin.showPopWin(this);
-        //return returnCurrency;
     }
 
     public void getDate(final int editTextNumber) {
@@ -228,8 +229,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .build();
         popWin.showPopWin(this);
 
-
-
-        //return returnText;
     }
 }

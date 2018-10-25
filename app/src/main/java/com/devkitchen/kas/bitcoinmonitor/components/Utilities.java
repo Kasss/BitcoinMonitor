@@ -1,20 +1,10 @@
 package com.devkitchen.kas.bitcoinmonitor.components;
 
-
-import android.app.Activity;
-import android.content.Context;
-import android.graphics.Color;
-import android.graphics.Typeface;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -24,9 +14,12 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import com.devkitchen.kas.datetimepicker.popwindow.DatePickerPopWin;
-import com.devkitchen.kas.datetimepicker.popwindow.WheelPickerPopWin;
 import com.google.gson.JsonObject;
+
+
+/**
+ * created by Kassen Dauren 25.10.2018
+ */
 
 public class Utilities {
 
@@ -38,9 +31,11 @@ public class Utilities {
     private String returnCurrency = "";
 
     /**
-     * Method that allows to pull out keys as String
+     * Method that allows to pull out keys as String from JsonObject
      *
      * @param json
+     * @return ArrayList
+     * @author Kassen Dauren
      */
     public static ArrayList<String> getKeys(JsonObject json) {
         ArrayList<String> arrayList = new ArrayList<>();
@@ -54,9 +49,11 @@ public class Utilities {
     }
 
     /**
-     * Method that allows to pull out values as String
+     * Method that allows to pull out values as String from JsonObject
      *
      * @param json
+     * @return ArrayList
+     * @author Kassen Dauren
      */
     public static ArrayList<String> getValues(JsonObject json) {
         ArrayList<String> arrayList = new ArrayList<>();
@@ -69,6 +66,13 @@ public class Utilities {
         return arrayList;
     }
 
+    /**
+     * Method that allows to pull out values as HashMap from JSONObject
+     *
+     * @param object
+     * @return HashMap map
+     * @author Kassen Dauren
+     */
     public static HashMap<String, Object> toMap(JSONObject object) throws JSONException {
         HashMap<String, Object> map = new HashMap<>();
         Iterator keys = object.keys();
@@ -79,6 +83,13 @@ public class Utilities {
         return map;
     }
 
+    /**
+     * Method that allows to pull out values value of JSON
+     *
+     * @param json
+     * @return null, Object json, HashMap, ArrayList
+     * @author Kassen Dauren
+     */
     private static Object fromJson(Object json) throws JSONException {
         if (json == JSONObject.NULL) {
             return null;
@@ -91,12 +102,38 @@ public class Utilities {
         }
     }
 
+    /**
+     * Method that recreates values to list from JSONArray
+     *
+     * @param array
+     * @return list
+     * @author Kassen Dauren
+     */
+
     public static ArrayList toList(JSONArray array) throws JSONException {
         ArrayList list = new ArrayList();
         for (int i = 0; i < array.length(); i++) {
             list.add(fromJson(array.get(i)));
         }
         return list;
+    }
+
+    /**
+     * Method that recreates values to list from JSONArray
+     *
+     * @param dateConvert
+     * @return date
+     * @author Kassen Dauren
+     */
+
+    public static Date convertDate(String dateConvert) {
+        Date date = Calendar.getInstance().getTime();
+        try {
+            date = new SimpleDateFormat("yyyy-mm-dd").parse(dateConvert);
+        } catch (ParseException e) {
+            e.getLocalizedMessage();
+        }
+        return date;
     }
 
 
