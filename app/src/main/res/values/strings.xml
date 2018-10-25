@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Индекс цен Bitcoin</string>
     <string name="start_date">от</string>
+    <string name="between_date">по</string>
     <string name="end_date">до</string>
     <string name="enter_date">Введите дату:</string>
     <string name="enter_currency">Введите валюту:</string>

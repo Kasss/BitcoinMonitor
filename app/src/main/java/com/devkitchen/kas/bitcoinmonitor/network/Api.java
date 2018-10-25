@@ -8,6 +8,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class Api {
 
     public static Retrofit retrofit;
+    private static String BASE_URL = "";
+    private static String SERVICE_URL = "";
 
     // default constructor
     public Api() {
@@ -20,7 +22,7 @@ public class Api {
             OkHttpClient okHttpClient = builder.build();
 
             retrofit = new Retrofit.Builder()
-                    .baseUrl("http://api.themoviedb.org/3/")
+                    .baseUrl(BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                     .client(okHttpClient)
