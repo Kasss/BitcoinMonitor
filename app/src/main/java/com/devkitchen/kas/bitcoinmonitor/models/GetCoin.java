@@ -1,15 +1,18 @@
 package com.devkitchen.kas.bitcoinmonitor.models;
 
+import com.google.gson.JsonObject;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import org.json.JSONObject;
 
+import java.util.HashMap;
+
 public class GetCoin {
 
     @SerializedName("bpi")
     @Expose
-    private JSONObject bpi;
+    private JsonObject bpi;
     @SerializedName("disclaimer")
     @Expose
     private String disclaimer;
@@ -21,18 +24,18 @@ public class GetCoin {
 
     }
 
-    public GetCoin(JSONObject bpi, String disclaimer, Time time) {
+    public GetCoin(JsonObject bpi, String disclaimer, Time time) {
         this.bpi = bpi;
         this.disclaimer = disclaimer;
         this.time = time;
     }
 
 
-    public JSONObject getBpi() {
+    public JsonObject getBpi() {
         return bpi;
     }
 
-    public void setBpi(JSONObject bpi) {
+    public void setBpi(JsonObject bpi) {
         this.bpi = bpi;
     }
 

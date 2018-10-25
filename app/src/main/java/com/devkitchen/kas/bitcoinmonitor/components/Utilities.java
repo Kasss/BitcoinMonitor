@@ -21,8 +21,12 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+
 import com.devkitchen.kas.datetimepicker.popwindow.DatePickerPopWin;
 import com.devkitchen.kas.datetimepicker.popwindow.WheelPickerPopWin;
+import com.google.gson.JsonObject;
 
 public class Utilities {
 
@@ -33,9 +37,40 @@ public class Utilities {
     private String returnText = "";
     private String returnCurrency = "";
 
+    /**
+     * Method that allows to pull out keys as String
+     *
+     * @param json
+     */
+    public static ArrayList<String> getKeys(JsonObject json) {
+        ArrayList<String> arrayList = new ArrayList<>();
+        Set set = json.entrySet();
+        Iterator iterator = set.iterator();
+        while (iterator.hasNext()) {
+            Map.Entry entry = (Map.Entry) iterator.next();
+            arrayList.add(String.valueOf(entry.getKey()));
+        }
+        return arrayList;
+    }
+
+    /**
+     * Method that allows to pull out values as String
+     *
+     * @param json
+     */
+    public static ArrayList<String> getValues(JsonObject json) {
+        ArrayList<String> arrayList = new ArrayList<>();
+        Set set = json.entrySet();
+        Iterator iterator = set.iterator();
+        while (iterator.hasNext()) {
+            Map.Entry entry = (Map.Entry) iterator.next();
+            arrayList.add(String.valueOf(entry.getValue()));
+        }
+        return arrayList;
+    }
 
     public static HashMap<String, Object> toMap(JSONObject object) throws JSONException {
-        HashMap<String, Object> map = new HashMap();
+        HashMap<String, Object> map = new HashMap<>();
         Iterator keys = object.keys();
         while (keys.hasNext()) {
             String key = (String) keys.next();

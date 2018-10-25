@@ -166,6 +166,7 @@ public class LoopView extends View {
         //the radius of circular
         mCircularRadius = (int) (mHalfCircumference / Math.PI);
 
+        // made by Kassen Dauren
         // ACTUALLY I DON'T SPEAK CHINESE REALLY I DON'T KNOW XIANG YANG (From Silicon Valley)
         // FIXME: 7/8/16  通过控件的高度来计算圆弧的周长
 

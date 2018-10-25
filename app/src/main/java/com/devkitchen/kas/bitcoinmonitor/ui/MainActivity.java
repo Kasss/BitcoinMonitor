@@ -19,12 +19,20 @@ import com.devkitchen.kas.bitcoinmonitor.models.GetCoin;
 import com.devkitchen.kas.datetimepicker.popwindow.DatePickerPopWin;
 import com.devkitchen.kas.datetimepicker.popwindow.WheelPickerPopWin;
 import com.github.mikephil.charting.charts.BarChart;
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonObject;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -56,7 +64,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private String startDate, endDate;
     private String currency;
     private static String TAG = "MainActivity GetCoin response: ";
-
+    private ArrayList<String> years;
+    private ArrayList<String> prices;
     MainPresenter mp;
 
 
@@ -65,8 +74,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        /* Strings required initialization since isEmpty statement on NULL object reference */
 
+        years = new ArrayList<>();
+        prices = new ArrayList<>();
+        /* Strings required initialization since isEmpty statement on NULL object reference */
         startDate = "";
         endDate = "";
         currency = "USD";
@@ -106,9 +117,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         hideProgressBar();
         if (coin != null) {
             disclaimerText.setText(coin.getDisclaimer());
-            Log.e( TAG, coin.getDisclaimer());
+            years.addAll(Utilities.getKeys(coin.getBpi()));
+            prices.addAll(Utilities.getValues(coin.getBpi()));
+            Log.d( TAG, coin.getDisclaimer());
         } else {
-            Log.e( TAG, "Response null");
+            Log.d( TAG, "Response null");
         }
     }
 
