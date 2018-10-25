@@ -9,6 +9,10 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
+/**
+ * created by Kassen Dauren 29.10.2018
+ */
+
 public interface ApiService {
 
     /**

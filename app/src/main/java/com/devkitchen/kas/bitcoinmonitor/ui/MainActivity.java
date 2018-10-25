@@ -2,11 +2,14 @@ package com.devkitchen.kas.bitcoinmonitor.ui;
 
 import android.app.Activity;
 import android.graphics.Color;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,7 +31,6 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, MainViewInterface {
 
-
     @BindView(R.id.enter_currency_value)
     TextView currencyText;
 
@@ -44,19 +46,43 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @BindView(R.id.graph_bar_chart)
     BarChart barChart;
 
-    private String startDate, endDate, currency;
+    @BindView(R.id.disclaimer_text)
+    TextView disclaimerText;
+
+    @BindView(R.id.progress_bar)
+    ProgressBar progressBar;
+
+    @NonNull
+    private String startDate, endDate;
+    private String currency;
+    private static String TAG = "MainActivity GetCoin response: ";
+
+    MainPresenter mp;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        //currencyText = findViewById(R.id.enter_currency_value);
+        /* Strings required initialization since isEmpty statement on NULL object reference */
+
+        startDate = "";
+        endDate = "";
+        currency = "USD";
         currencyText.setOnClickListener(this);
         startEditText.setOnClickListener(this);
         endEditText.setOnClickListener(this);
         showResult.setOnClickListener(this);
+    }
 
+    private void setupMVP() {
+        mp = new MainPresenter(this, startDate, endDate, currency);
+        getCoins();
+    }
+
+    private void getCoins() {
+        mp.getCoin();
     }
 
 
@@ -67,17 +93,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void showProgressBar() {
-
+        progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideProgressBar() {
-
+        progressBar.setVisibility(View.GONE);
     }
 
     @Override
     public void displayCoins(GetCoin coin) {
-
+        hideProgressBar();
+        if (coin != null) {
+            disclaimerText.setText(coin.getDisclaimer());
+            Log.e( TAG, coin.getDisclaimer());
+        } else {
+            Log.e( TAG, "Response null");
+        }
     }
 
     @Override
@@ -88,26 +120,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         if (view == startEditText) {
-            //startDate = utility.getDate(this);
-            //Utilities.getCurrency(this);
-            getDate();
+            getDate(1);
         }
         if (view == endEditText) {
-            //startDate = utility.getDate(this);
-            getDate();
+            getDate(2);
         }
         if (view == currencyText) {
-            //currency = utility.getCurrency(this);
             getCurrency();
         }
         if (view == showResult) {
+            checkEvent();
+        }
+    }
 
+    public void checkEvent() {
+        if (startDate.isEmpty() || endDate.isEmpty()) {
+            Toast.makeText(MainActivity.this, "Введите дату!", Toast.LENGTH_LONG).show();
+        } else {
+            setupMVP();
+            showProgressBar();
         }
     }
 
 
     public void getCurrency() {
-        ArrayList<String> currencyList = new ArrayList<>();
+        final ArrayList<String> currencyList = new ArrayList<>();
         currencyList.add("USD");
         currencyList.add("EUR");
         currencyList.add("GBP");
@@ -116,7 +153,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         WheelPickerPopWin pickerPopWin = new WheelPickerPopWin.Builder(this, new WheelPickerPopWin.OnWheelPickedListener() {
             @Override
             public void onWheelPickCompleted(String value) {
-                //returnCurrency = value;
+                currency = value;
+                currencyText.setText(currency);
             }
         }).textCenterTextView("Валюта")
                 .textConfirm("Готово") //text of confirm button
@@ -132,7 +170,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //return returnCurrency;
     }
 
-    public void getDate() {
+    public void getDate(final int editTextNumber) {
 
         final Calendar currentDateAndTime = Calendar.getInstance();
         final Calendar selectedDate = (Calendar) currentDateAndTime.clone();
@@ -140,34 +178,45 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         final Calendar maxDate = (Calendar) currentDateAndTime.clone();
         maxDate.set(Calendar.YEAR, currentDateAndTime.get(Calendar.YEAR));
         minDate.set(Calendar.YEAR, 2010);
-        minDate.set(Calendar.MONTH, 7);
-        minDate.set(Calendar.DAY_OF_MONTH, 17);
+        Date date = currentDateAndTime.getTime();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+        String strDate = dateFormat.format(date);
         DatePickerPopWin popWin = new DatePickerPopWin.Builder(this, new DatePickerPopWin.OnDatePickedListener() {
             @Override
             public void onDatePickCompleted(int year, int month, int day, String dateDesc) {
                 Calendar calendar = (Calendar) currentDateAndTime.clone();
                 calendar.set(year, month - 1, day);
                 //returnText = dateDesc;
+                switch (editTextNumber) {
+                    case 1:
+                        startDate = dateDesc;
+                        startEditText.setText(startDate);
+                        break;
+                    case 2:
+                        endDate = dateDesc;
+                        endEditText.setText(endDate);
+                        break;
+                    default:
+                        startDate = dateDesc;
+                        startEditText.setText(startDate);
+                        break;
+                }
             }
         }).textConfirm("ОК")
                 .textCancel("Отмена")
                 .btnTextSize(16)
                 .viewTextSize(18)
-                .showDayMonthYear(true)
                 .colorCancel(Color.parseColor("#999999")) //color of cancel button
                 .colorConfirm(Color.parseColor("#2d095c"))
                 .minYear(minDate.get(Calendar.YEAR)) //min year in loop
                 .maxYear(maxDate.get(Calendar.YEAR)) // max year in loop
                 .minDate(minDate)
                 .maxDate(maxDate)
-                .dateChose(selectedDate)
                 .build();
         popWin.showPopWin(this);
 
 
-        Date date = currentDateAndTime.getTime();
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
-        String strDate = dateFormat.format(date);
+
         //return returnText;
     }
 }

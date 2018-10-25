@@ -1,5 +1,7 @@
 package com.devkitchen.kas.bitcoinmonitor.network;
 
+import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -9,7 +11,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class Api {
 
     public static Retrofit retrofit;
-    private static String BASE_URL = "https://api.coindesk.com/v1/bpi";
+    private static String BASE_URL = "https://api.coindesk.com/v1/bpi/";
     private static String SERVICE_URL = "";
 
     // default constructor
@@ -27,7 +29,7 @@ public class Api {
             retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())
-                    .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .client(okHttpClient)
                     .build();
 

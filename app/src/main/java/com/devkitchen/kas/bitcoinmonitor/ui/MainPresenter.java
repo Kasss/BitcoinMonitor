@@ -30,14 +30,12 @@ public class MainPresenter implements MainPresenterInterface {
         getObservable().subscribeWith(getObserver());
     }
 
-
     public Observable<GetCoin> getObservable(){
         return Api.getRetrofit().create(ApiService.class)
                 .getCoins(start, end, currency)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
-
 
     public DisposableObserver<GetCoin> getObserver(){
         return new DisposableObserver<GetCoin>() {
