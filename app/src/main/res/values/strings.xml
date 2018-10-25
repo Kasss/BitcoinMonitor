@@ -7,4 +7,5 @@
     <string name="last_update">Последнее обновление</string>
     <string name="standard_currency">USD</string>
     <string name="empty_text_view">________</string>
+    <string name="show">Посмотреть</string>
 </resources>
