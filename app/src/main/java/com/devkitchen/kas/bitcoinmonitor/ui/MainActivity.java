@@ -19,6 +19,10 @@ import com.devkitchen.kas.bitcoinmonitor.models.GetCoin;
 import com.devkitchen.kas.datetimepicker.popwindow.DatePickerPopWin;
 import com.devkitchen.kas.datetimepicker.popwindow.WheelPickerPopWin;
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -83,6 +87,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         showResult.setOnClickListener(this);
     }
 
+    private void initBarChart () {
+        ArrayList<BarEntry> barEntries = new ArrayList<>();
+        ArrayList<String> labels = new ArrayList<>();
+        for (int i = 0; i < prices.size(); i++)
+        {
+            barEntries.add(new BarEntry(Float.valueOf(prices.get(i)), i));
+        }
+        labels.addAll(years);
+        BarDataSet barDataSet = new BarDataSet(barEntries, "Цена");
+        BarData data = new BarData(labels, barDataSet);
+        barChart.setData(data);
+        barChart.setDescription("");
+    }
+
     private void setupMVP() {
         mp = new MainPresenter(this, startDate, endDate, currency);
         getCoins();
@@ -115,6 +133,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             disclaimerText.setText(coin.getDisclaimer());
             years.addAll(Utilities.getKeys(coin.getBpi()));
             prices.addAll(Utilities.getValues(coin.getBpi()));
+            initBarChart();
             Log.d(TAG, coin.getDisclaimer());
         } else {
             Log.d(TAG, "Response null");

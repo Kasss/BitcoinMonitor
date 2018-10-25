@@ -109,7 +109,6 @@ public class Utilities {
      * @return list
      * @author Kassen Dauren
      */
-
     public static ArrayList toList(JSONArray array) throws JSONException {
         ArrayList list = new ArrayList();
         for (int i = 0; i < array.length(); i++) {
@@ -125,7 +124,6 @@ public class Utilities {
      * @return date
      * @author Kassen Dauren
      */
-
     public static Date convertDate(String dateConvert) {
         Date date = Calendar.getInstance().getTime();
         try {
