@@ -26,51 +26,13 @@ import com.devkitchen.kas.datetimepicker.popwindow.WheelPickerPopWin;
 
 public class Utilities {
 
-    public final static String DEFAULT_START_DATE = "2013-09-05";
-    public final static String DEFAULT_END_DATE = "2013-09-01";
+    public final static String DEFAULT_START_DATE = "2013-09-01";
+    public final static String DEFAULT_END_DATE = "2013-09-05";
     public final static String DEFAULT_CURRENCY = "USD";
-    private ArrayList<String> currencyList = new ArrayList<>();
+
     private String returnText = "";
     private String returnCurrency = "";
 
-    public String getDate(Activity activity) {
-        final Calendar currentDateAndTime = Calendar.getInstance();
-        final Calendar selectedDate = (Calendar) currentDateAndTime.clone();
-        final Calendar minDate = (Calendar) currentDateAndTime.clone();
-        final Calendar maxDate = (Calendar) currentDateAndTime.clone();
-        maxDate.set(Calendar.YEAR, currentDateAndTime.get(Calendar.YEAR));
-        minDate.set(Calendar.YEAR, 2010);
-        minDate.set(Calendar.MONTH, 7);
-        minDate.set(Calendar.DAY_OF_MONTH, 17);
-        if (activity != null) {
-            DatePickerPopWin popWin = new DatePickerPopWin.Builder(activity.getBaseContext(), new DatePickerPopWin.OnDatePickedListener() {
-                @Override
-                public void onDatePickCompleted(int year, int month, int day, String dateDesc) {
-                    Calendar calendar = (Calendar) currentDateAndTime.clone();
-                    calendar.set(year, month - 1, day);
-                    returnText = dateDesc;
-                }
-            }).textConfirm("ОК")
-                    .textCancel("Отмена")
-                    .btnTextSize(16)
-                    .viewTextSize(18)
-                    .showDayMonthYear(true)
-                    .colorCancel(Color.parseColor("#999999")) //color of cancel button
-                    .colorConfirm(Color.parseColor("#2d095c"))
-                    .minYear(minDate.get(Calendar.YEAR)) //min year in loop
-                    .maxYear(maxDate.get(Calendar.YEAR)) // max year in loop
-                    .minDate(minDate)
-                    .maxDate(maxDate)
-                    .dateChose(selectedDate)
-                    .build();
-            popWin.showPopWin(activity);
-        }
-
-        Date date = currentDateAndTime.getTime();
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
-        String strDate = dateFormat.format(date);
-        return returnText;
-    }
 
     public static HashMap<String, Object> toMap(JSONObject object) throws JSONException {
         HashMap<String, Object> map = new HashMap();
@@ -100,37 +62,6 @@ public class Utilities {
             list.add(fromJson(array.get(i)));
         }
         return list;
-    }
-
-
-    public String getCurrency(Activity activity) {
-
-        currencyList.add("USD");
-        currencyList.add("EUR");
-        currencyList.add("GBP");
-        currencyList.add("KZT");
-
-        if (activity != null) {
-
-            WheelPickerPopWin pickerPopWin = new WheelPickerPopWin.Builder(activity.getBaseContext(), new WheelPickerPopWin.OnWheelPickedListener() {
-                @Override
-                public void onWheelPickCompleted(String value) {
-                   returnCurrency = value;
-                }
-            }).textCenterTextView("Валюта")
-                    .textConfirm("Готово") //text of confirm button
-                    .textCancel("Отмена") //text of cancel button
-                    .btnTextSize(16) // button text size
-                    .viewTextSize(20) // pick view text size
-                    .colorCancel(Color.parseColor("#999999")) //color of cancel button
-                    .colorConfirm(Color.parseColor("#2d095c"))//color of confirm button
-                    .wheelList(currencyList)
-                    .itemChose(0) // date chose when init popwindow
-                    .build();
-            pickerPopWin.showPopWin(activity);
-
-        }
-        return returnCurrency;
     }
 
 

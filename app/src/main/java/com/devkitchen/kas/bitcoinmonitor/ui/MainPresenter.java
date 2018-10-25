@@ -52,7 +52,7 @@ public class MainPresenter implements MainPresenterInterface {
             public void onError(@NonNull Throwable e) {
                 Log.d(TAG,"Error"+e);
                 e.printStackTrace();
-                mainViewInterface.displayError("Error fetching Coin Data");
+                mainViewInterface.displayError("Error fetching while Data");
             }
 
             @Override

@@ -81,6 +81,7 @@
                     android:textSize="18sp" />
 
                 <EditText
+                    android:id="@+id/enter_start"
                     android:clickable="true"
                     android:focusable="true"
                     android:editable="false"
@@ -104,11 +105,11 @@
                     android:textSize="18sp" />
 
                 <EditText
+                    android:id="@+id/enter_end"
                     android:clickable="true"
                     android:focusable="true"
                     android:inputType="none"
                     android:editable="false"
-                    android:foreground="?attr/selectableItemBackground"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text=""
@@ -141,6 +142,7 @@
             android:layout_height="0.8dp"
             android:layout_below="@+id/button_show"
             android:background="@color/colorPrimaryDark" />
+
 
         <com.github.mikephil.charting.charts.BarChart
             android:id="@+id/graph_bar_chart"
