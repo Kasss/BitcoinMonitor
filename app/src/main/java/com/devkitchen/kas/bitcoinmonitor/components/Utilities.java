@@ -26,8 +26,10 @@ import com.devkitchen.kas.datetimepicker.popwindow.WheelPickerPopWin;
 
 public class Utilities {
 
+    public final static String DEFAULT_START_DATE = "2013-09-05";
+    public final static String DEFAULT_END_DATE = "2013-09-01";
+    public final static String DEFAULT_CURRENCY = "USD";
     private ArrayList<String> currencyList = new ArrayList<>();
-
     private String returnText = "";
     private String returnCurrency = "";
 
@@ -37,7 +39,9 @@ public class Utilities {
         final Calendar minDate = (Calendar) currentDateAndTime.clone();
         final Calendar maxDate = (Calendar) currentDateAndTime.clone();
         maxDate.set(Calendar.YEAR, currentDateAndTime.get(Calendar.YEAR));
-        minDate.set(Calendar.YEAR, 2002);
+        minDate.set(Calendar.YEAR, 2010);
+        minDate.set(Calendar.MONTH, 7);
+        minDate.set(Calendar.DAY_OF_MONTH, 17);
         if (activity != null) {
             DatePickerPopWin popWin = new DatePickerPopWin.Builder(activity.getBaseContext(), new DatePickerPopWin.OnDatePickedListener() {
                 @Override
