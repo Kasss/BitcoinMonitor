@@ -13,7 +13,58 @@
         tools:context=".ui.MainActivity">
 
         <LinearLayout
+            android:id="@+id/current_price_layout"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_weight="1.0"
+                android:layout_margin="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/current_price"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/chose_current_price"
+                android:layout_weight="3.0"
+                android:layout_margin="10dp"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                android:text="@string/default_value_price"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="18sp"
+                android:background="@drawable/corner"/>
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="0.8dp"
+            android:layout_below="@+id/current_price_layout"
+            android:background="@color/colorPrimaryDark" />
+
+        <TextView
+            android:layout_below="@+id/divider"
+            android:id="@+id/filter_title"
+            android:text="@string/graph_construct_title"
+            android:gravity="center"
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
             android:id="@+id/currency_layout"
+            android:layout_below="@+id/filter_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -156,7 +207,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:gravity="fill"
+                android:gravity="center"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="18sp" />
 

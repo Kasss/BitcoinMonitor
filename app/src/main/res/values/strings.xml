@@ -9,4 +9,7 @@
     <string name="standard_currency">USD</string>
     <string name="empty_text_view">________</string>
     <string name="show">Посмотреть</string>
+    <string name="current_price">Текущая цена:</string>
+    <string name="graph_construct_title">Фильтр для графика</string>
+    <string name="default_value_price">0 USD</string>
 </resources>

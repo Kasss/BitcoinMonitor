@@ -2,6 +2,7 @@ package com.devkitchen.kas.bitcoinmonitor.ui;
 
 import android.util.Log;
 
+import com.devkitchen.kas.bitcoinmonitor.models.CurrentGetCoin;
 import com.devkitchen.kas.bitcoinmonitor.models.GetCoin;
 import com.devkitchen.kas.bitcoinmonitor.network.Api;
 import com.devkitchen.kas.bitcoinmonitor.network.ApiService;
@@ -25,10 +26,20 @@ public class MainPresenter implements MainPresenterInterface {
         this.currency = currency;
     }
 
+    public MainPresenter(MainViewInterface mainViewInterface, String currency) {
+        this.mainViewInterface = mainViewInterface;
+        this.currency = currency;
+    }
+
     @Override
     public void getCoin() {
         getObservable().subscribeWith(getObserver());
     }
+    @Override
+    public void getCurrentCoin() {
+        getCoinObservable().subscribeWith(getCoinDisposableObserver());
+    }
+
 
     public Observable<GetCoin> getObservable(){
         return Api.getRetrofit().create(ApiService.class)
@@ -60,4 +71,39 @@ public class MainPresenter implements MainPresenterInterface {
             }
         };
     }
+
+
+    // Лень было переделать на multisubcribe, не увидел второе задание
+
+    public Observable<CurrentGetCoin> getCoinObservable(){
+        return Api.getRetrofit().create(ApiService.class)
+                .getCurrentPrice(currency)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public DisposableObserver<CurrentGetCoin> getCoinDisposableObserver(){
+        return new DisposableObserver<CurrentGetCoin>() {
+
+            @Override
+            public void onNext(@NonNull CurrentGetCoin coin) {
+                Log.d(TAG,"OnNext" + coin.getBpi());
+                mainViewInterface.displayCurrentCoin(coin);
+            }
+
+            @Override
+            public void onError(@NonNull Throwable e) {
+                Log.d(TAG,"Error"+e);
+                e.printStackTrace();
+                mainViewInterface.displayError("Error fetching while Data");
+            }
+
+            @Override
+            public void onComplete() {
+                Log.d(TAG,"Completed");
+                mainViewInterface.hideProgressBar();
+            }
+        };
+    }
+
 }

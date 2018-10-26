@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.devkitchen.kas.bitcoinmonitor.R;
 import com.devkitchen.kas.bitcoinmonitor.components.Utilities;
+import com.devkitchen.kas.bitcoinmonitor.models.CurrentGetCoin;
 import com.devkitchen.kas.bitcoinmonitor.models.GetCoin;
 import com.devkitchen.kas.datetimepicker.popwindow.DatePickerPopWin;
 import com.devkitchen.kas.datetimepicker.popwindow.WheelPickerPopWin;
@@ -23,6 +24,8 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -35,6 +38,7 @@ import butterknife.ButterKnife;
 
 /**
  * created by Kassen Dauren 25.10.2018
+ * last update 26.10.2018
  */
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, MainViewInterface {
@@ -60,6 +64,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
 
+    @BindView(R.id.chose_current_price)
+    TextView chosePrice;
+
     @NonNull
     private String startDate, endDate;
     private String currency;
@@ -81,11 +88,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         startDate = "";
         endDate = "";
         currency = "USD";
+        setupCurrentMVP();
         currencyText.setOnClickListener(this);
         startEditText.setOnClickListener(this);
         endEditText.setOnClickListener(this);
         showResult.setOnClickListener(this);
     }
+
 
     private void initBarChart () {
         ArrayList<BarEntry> barEntries = new ArrayList<>();
@@ -110,6 +119,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mp.getCoin();
     }
 
+    private void setupCurrentMVP() {
+        mp = new MainPresenter(this, currency);
+        getCurrentCoin();
+    }
+
+    private void getCurrentCoin() {
+        mp.getCurrentCoin();
+    }
+
 
     @Override
     public void showToast(String s) {
@@ -124,6 +142,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void hideProgressBar() {
         progressBar.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void displayCurrentCoin(CurrentGetCoin coin) {
+        if (coin != null) {
+            JsonObject bpi = coin.getBpi();
+            if (bpi != null && bpi.has(currency)) {
+                JsonObject getCurrencyBody = bpi.getAsJsonObject(currency);
+                String getRate = getCurrencyBody.get("rate").getAsString();
+                chosePrice.setText(getRate);
+            }
+
+        }
     }
 
     @Override
@@ -159,6 +190,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         if (view == showResult) {
             checkEvent();
+        }
+        if (view == chosePrice) {
+
         }
     }
 
