@@ -93,6 +93,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         startEditText.setOnClickListener(this);
         endEditText.setOnClickListener(this);
         showResult.setOnClickListener(this);
+        chosePrice.setOnClickListener(this);
     }
 
 
@@ -151,7 +152,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (bpi != null && bpi.has(currency)) {
                 JsonObject getCurrencyBody = bpi.getAsJsonObject(currency);
                 String getRate = getCurrencyBody.get("rate").getAsString();
-                chosePrice.setText(getRate);
+                chosePrice.setText(String.valueOf(getRate + " " + currency));
             }
 
         }
@@ -186,13 +187,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             getDate(2);
         }
         if (view == currencyText) {
-            getCurrency();
+            getCurrency(1);
         }
         if (view == showResult) {
             checkEvent();
         }
         if (view == chosePrice) {
-
+            getCurrency(2);
         }
     }
 
@@ -211,7 +212,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-    public void getCurrency() {
+    public void getCurrency(final int typeCase) {
         final ArrayList<String> currencyList = new ArrayList<>();
         currencyList.add("USD");
         currencyList.add("EUR");
@@ -221,8 +222,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         WheelPickerPopWin pickerPopWin = new WheelPickerPopWin.Builder(this, new WheelPickerPopWin.OnWheelPickedListener() {
             @Override
             public void onWheelPickCompleted(String value) {
-                currency = value;
-                currencyText.setText(currency);
+                switch (typeCase) {
+                    case 1:
+                        currency = value;
+                        currencyText.setText(currency);
+                        break;
+                    case 2:
+                        currency = value;
+                        setupCurrentMVP();
+                        break;
+                    default:
+                        currency = value;
+                        currencyText.setText(currency);
+                        break;
+                }
+
+
             }
         }).textCenterTextView("Валюта")
                 .textConfirm("Готово")          //text of confirm button
