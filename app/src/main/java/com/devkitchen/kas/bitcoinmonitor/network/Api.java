@@ -10,16 +10,26 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+/**
+ * created by Kassen Dauren 25.10.2018
+ * last update 26.10.2018
+ */
+
 public class Api {
 
     public static Retrofit retrofit;
     private static String BASE_URL = "https://api.coindesk.com/v1/bpi/";
-    private static String SERVICE_URL = "";
 
     // default constructor
     public Api() {
     }
 
+    /**
+     * Constructor that for building Retrofit
+     * @author Kassen Dauren
+     * @param none
+     * @return returns implemented retrofit if not null
+     * */
     public static Retrofit getRetrofit(){
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);

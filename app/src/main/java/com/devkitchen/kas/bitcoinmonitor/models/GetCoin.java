@@ -8,6 +8,12 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 
+/**
+ * created by Kassen Dauren 25.10.2018
+ * last update 26.10.2018
+ */
+
+
 public class GetCoin {
 
     @SerializedName("bpi")

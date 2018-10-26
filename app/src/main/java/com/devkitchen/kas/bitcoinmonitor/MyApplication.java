@@ -6,15 +6,25 @@ import com.devkitchen.kas.bitcoinmonitor.modules.ApplicationComponent;
 import com.devkitchen.kas.bitcoinmonitor.modules.ApplicationModule;
 import com.devkitchen.kas.bitcoinmonitor.modules.DaggerApplicationComponent;
 
+/**
+ * created by Kassen Dauren 25.10.2018
+ * last update 26.10.2018
+ */
 
-public class MyApplication extends Application{
+
+public class MyApplication extends Application {
 
     private static ApplicationComponent applicationComponent;
 
-    public MyApplication(){
+    public MyApplication() {
 
     }
 
+    /**
+     *
+     * Dagger application component implementation
+     * @author Kassen Dauren
+     * */
     @Override
     public void onCreate() {
         super.onCreate();
@@ -26,7 +36,7 @@ public class MyApplication extends Application{
 
     }
 
-    public ApplicationComponent getApplicationComponent(){
+    public ApplicationComponent getApplicationComponent() {
         return applicationComponent;
     }
 

@@ -31,7 +31,7 @@ public class Utilities {
     private String returnCurrency = "";
 
     /**
-     * Method that allows to pull out keys as String from JsonObject
+     * Method that allows to pull out keys as String ArrayList from JsonObject
      *
      * @param json
      * @return ArrayList
@@ -49,7 +49,7 @@ public class Utilities {
     }
 
     /**
-     * Method that allows to pull out values as String from JsonObject
+     * Method that allows to pull out values as String ArrayList from JsonObject
      *
      * @param json
      * @return ArrayList

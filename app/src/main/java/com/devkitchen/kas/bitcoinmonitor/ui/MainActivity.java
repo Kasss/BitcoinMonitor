@@ -96,12 +96,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         chosePrice.setOnClickListener(this);
     }
 
+    /**
+     * Method for implementing and creation Graphic Bar Chart
+     *
+     * @author Kassen Dauren
+     */
 
-    private void initBarChart () {
+    private void initBarChart() {
         ArrayList<BarEntry> barEntries = new ArrayList<>();
         ArrayList<String> labels = new ArrayList<>();
-        for (int i = 0; i < prices.size(); i++)
-        {
+        for (int i = 0; i < prices.size(); i++) {
             barEntries.add(new BarEntry(Float.valueOf(prices.get(i)), i));
         }
         labels.addAll(years);
@@ -111,39 +115,88 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         barChart.setDescription("");
     }
 
+    /**
+     * Method for implementing constructor
+     *
+     * @author Kassen Dauren
+     */
+
     private void setupMVP() {
         mp = new MainPresenter(this, startDate, endDate, currency);
         getCoins();
     }
 
+    /**
+     * Method for implementing response
+     *
+     * @author Kassen Dauren
+     */
+
     private void getCoins() {
         mp.getCoin();
     }
+
+    /**
+     * Method for implementing constructor
+     *
+     * @author Kassen Dauren
+     */
 
     private void setupCurrentMVP() {
         mp = new MainPresenter(this, currency);
         getCurrentCoin();
     }
 
+    /**
+     * Method for implementing response
+     *
+     * @author Kassen Dauren
+     */
+
     private void getCurrentCoin() {
         mp.getCurrentCoin();
     }
 
+    /**
+     * Override method of interface to show Toast in case success or failure response
+     *
+     * @param s display message
+     * @author Kassen Dauren
+     */
 
     @Override
     public void showToast(String s) {
         Toast.makeText(MainActivity.this, s, Toast.LENGTH_LONG).show();
     }
 
+    /**
+     * Override method for show progressView in case success or failure response
+     *
+     * @author Kassen Dauren
+     */
+
     @Override
     public void showProgressBar() {
         progressBar.setVisibility(View.VISIBLE);
     }
 
+    /**
+     * Override method for hide progressView in case success or failure response
+     *
+     * @author Kassen Dauren
+     */
+
     @Override
     public void hideProgressBar() {
         progressBar.setVisibility(View.GONE);
     }
+
+    /**
+     * Override method for retrieving response if not null (display current data price)
+     *
+     * @param coin get value from interface
+     * @author Kassen Dauren
+     */
 
     @Override
     public void displayCurrentCoin(CurrentGetCoin coin) {
@@ -158,6 +211,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    /**
+     * Override method for retrieving response if not null (display data in spicific period)
+     *
+     * @param coin get value from interface
+     * @author Kassen Dauren
+     */
     @Override
     public void displayCoins(GetCoin coin) {
         hideProgressBar();
@@ -172,6 +231,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    /**
+     * Override method for display Error while response
+     *
+     * @author Kassen Dauren
+     */
     @Override
     public void displayError(String e) {
         hideProgressBar();
@@ -197,6 +261,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    /**
+     * Method for check editText
+     *
+     * @param none
+     * @author Kassen Dauren
+     */
+
     public void checkEvent() {
         if (startDate.isEmpty() || endDate.isEmpty()) {
             Toast.makeText(MainActivity.this, "Введите дату!", Toast.LENGTH_LONG).show();
@@ -211,6 +282,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    /**
+     * Method for implementing pickerView for currency
+     *
+     * @param typeCase variable for statement to chose for which case create pickerView
+     * @author Kassen Dauren
+     */
 
     public void getCurrency(final int typeCase) {
         final ArrayList<String> currencyList = new ArrayList<>();
@@ -251,6 +328,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .build();
         pickerPopWin.showPopWin(this);
     }
+
+
+    /**
+     * Method for implementing pickerView for Date
+     *
+     * @param editTextNumber variable for statement to chose for which case create pickerView
+     * @author Kassen Dauren
+     */
 
     public void getDate(final int editTextNumber) {
 
